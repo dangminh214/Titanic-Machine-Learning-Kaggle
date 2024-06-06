@@ -1,7 +1,8 @@
-import numpy as np
 # linear algebra
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
+import numpy as np
+import matplotlib.pyplot as plt
 
 # Input data files are available in the "../input/" directory.
 
@@ -32,6 +33,7 @@ rate_men = sum(men)/len(men)
 
 print("% of survived men:", rate_men)
 
+# Use Random Forrest Classification to classify
 y = train_data["Survived"]
 
 features = ["Pclass", "Sex", "SibSp", "Parch"]
@@ -45,4 +47,18 @@ predictions = model.predict(X_test)
 output = pd.DataFrame({'PassengerId': test_data.PassengerId, 'Survived': predictions})
 output.to_csv('submission.csv', index=False)
 
+# Visualize the survival rates based on gender
+survival_rates = [rate_women, rate_men]
+labels = ['Women', 'Men']
 
+# Create the bar chart
+fig, ax = plt.subplots()
+ax.bar(labels, survival_rates, color=['blue', 'green'])
+
+# Add labels and title
+ax.set_ylabel('Survival Rate')
+ax.set_title('Survival Rate by Gender')
+ax.set_ylim(0, 1)
+
+# Display the plot
+plt.show()
